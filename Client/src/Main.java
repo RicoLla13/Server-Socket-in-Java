@@ -1,7 +1,6 @@
 package Client.src;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -12,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         int port = 3000;
         String ip = "localhost";
-        String exitLine = "exit";
+        String exitLine = "exit()";
 
         Socket client;
 
