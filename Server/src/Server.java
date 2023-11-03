@@ -1,11 +1,12 @@
 package Server.src;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Server {
     int port = 3000;
@@ -27,37 +28,51 @@ public class Server {
 
                 System.out.println("New connection initiated. Client #" + sockList.indexOf(socket));
 
-                Thread sockThread = new SocketHandler(socket, sockList.indexOf(socket));
+                Thread sockThread = new SocketInHandler(socket, sockList.indexOf(socket), exitLine);
                 sockThread.start();
+
+                Thread inThread = new InputHandler();
+                inThread.start();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    class SocketHandler extends Thread {
-        Socket socket;
-        int sockNum;
-
-        public SocketHandler(Socket socket, int sockNum) {
-            this.socket = socket;
-            this.sockNum = sockNum;
-        }
-
+    class InputHandler extends Thread {
         @Override
         public void run() {
             String line = "";
+            Scanner sysIn = new Scanner(System.in);
 
-            while (!line.equals(exitLine)) {
-                try {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            while (!line.equals(closeAllLine)) {
+                line = sysIn.nextLine();
+            }
 
-                    line = reader.readLine();
-                    System.out.println("Client #" + sockNum + ": " + line);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            sysIn.close();
+            try {
+                closeAll();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
+    }
+
+    public void closeAll() throws IOException {
+        for (int i = 0; i < sockList.size(); i++) {
+            Socket socket = sockList.get(i);
+
+            try {
+                PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+                writer.println(exitLine);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            socket.close();
+        }
+        sockList.clear();
+
+        System.exit(1);
     }
 }
