@@ -13,6 +13,7 @@ public class Main {
         int port = 3000;
         String ip = "localhost";
         String exitLine = "exit()";
+        String closeAllLine = "EXIT()";
 
         Socket client;
 
@@ -34,6 +35,8 @@ public class Main {
                 line = sysIn.nextLine();
                 clWriter.println(line);
             }
+
+            sysIn.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
