@@ -1,9 +1,8 @@
 package Client.src;
 
-import java.io.IOException;
-
 public class Main {
+    // run a new Client instance
     public static void main(String[] args) {
-        Client client = new Client();
+        final Client client = new Client();
     }
 }

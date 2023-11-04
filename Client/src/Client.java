@@ -3,14 +3,18 @@ package Client.src;
 import java.io.IOException;
 import java.net.Socket;
 
+// Client instance class
 public class Client {
-    private int port = 3000;
-    private String ip = "localhost";
+    // connection variables
+    private int port = 3000; // Server port
+    private String hostname = "localhost"; // Server hostname/ip address
+
+    // program variables
     private String exitLine = "exit()";
 
     public Client() {
         try {
-            Socket socket = new Socket(ip, port);
+            Socket socket = new Socket(hostname, port);
 
             Thread sockInThread = new SockInHandler(socket, exitLine);
             sockInThread.start();
