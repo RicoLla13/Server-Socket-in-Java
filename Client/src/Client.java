@@ -8,13 +8,17 @@ public class Client {
     private String ip = "localhost";
     private String exitLine = "exit()";
 
-    public Client() throws IOException {
-        Socket socket = new Socket(ip, port);
+    public Client() {
+        try {
+            Socket socket = new Socket(ip, port);
 
-        Thread sockInThread = new SockInHandler(socket, exitLine);
-        sockInThread.start();
+            Thread sockInThread = new SockInHandler(socket, exitLine);
+            sockInThread.start();
 
-        Thread sockOutThread = new SockOutHandler(socket, exitLine);
-        sockOutThread.start();
+            SockOutHandler sockOutStream = new SockOutHandler(socket, exitLine);
+            sockOutStream.outputStream();
+        } catch (IOException e) {
+            System.out.println("Try catch Client");
+        }
     }
 }

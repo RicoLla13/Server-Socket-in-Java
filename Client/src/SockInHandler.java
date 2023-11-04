@@ -27,14 +27,8 @@ public class SockInHandler extends Thread {
                 line = reader.readLine();
                 System.out.println("Server: " + line);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("SockInHandler try catch");
             }
-        }
-
-        try {
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
         System.exit(0);

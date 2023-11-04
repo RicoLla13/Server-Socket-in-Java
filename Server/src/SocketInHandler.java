@@ -4,15 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class SocketInHandler extends Thread {
     private Socket socket;
-    private int sockNum;
+    private ArrayList<Socket> sockList;
     private String exitLine;
 
-    public SocketInHandler(Socket socket, int sockNum, String exitLine) throws IOException {
+    public SocketInHandler(Socket socket, ArrayList<Socket> sockList, String exitLine) {
         this.socket = socket;
-        this.sockNum = sockNum;
+        this.sockList = sockList;
         this.exitLine = exitLine;
     }
 
@@ -27,13 +28,14 @@ public class SocketInHandler extends Thread {
                 reader = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
 
                 line = reader.readLine();
-                System.out.println("Server: " + line);
+                System.out.println("Client #" + this.sockList.indexOf(socket) + ": " + line);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        System.out.println("Client #" + sockNum + " disconnected.");
+        System.out.println("Client #" + this.sockList.indexOf(socket) + " disconnected.");
+        this.sockList.remove(socket);
 
         try {
             reader.close();
