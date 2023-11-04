@@ -3,16 +3,25 @@ package Client.src;
 import java.io.IOException;
 import java.net.Socket;
 
+// personal imports
+import Config.src.SettingsInHandler;
+
 // Client instance class
 public class Client {
     // connection variables
-    private int port = 3000; // Server port
-    private String hostname = "localhost"; // Server hostname/ip address
+    private int port; // Server port
+    private String hostname; // Server hostname/ip address
 
-    // program variables
-    private String exitLine = "exit()";
+    // run variables
+    private String exitLine;
 
     public Client() {
+        // run a settings handler
+        SettingsInHandler config = new SettingsInHandler();
+        port = config.getPort();
+        hostname = config.getHostName();
+        exitLine = config.getExitLine();
+
         try {
             Socket socket = new Socket(hostname, port);
 

@@ -5,14 +5,22 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+// personal imports
+import Config.src.SettingsInHandler;
+
 public class Server {
-    int port = 3000;
-    String exitLine = "exit()";
+    int port;
+    String exitLine;
 
     ServerSocket server;
     ArrayList<Socket> sockList = new ArrayList<Socket>();
 
     public Server() throws IOException {
+        // run a settings handler
+        SettingsInHandler config = new SettingsInHandler();
+        port = config.getPort();
+        exitLine = config.getExitLine();
+
         server = new ServerSocket(port);
 
         Thread sockOutThread = new SockOutHandler(sockList, exitLine);

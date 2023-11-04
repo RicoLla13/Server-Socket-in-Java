@@ -2,8 +2,9 @@ package Config.src;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class SettingsInHandler {
@@ -24,7 +25,9 @@ public class SettingsInHandler {
 
         try {
             // try to make a reader from file sv_config.txt
-            fileReader = new BufferedReader(new FileReader("sv_config.txt"));
+            InputStream file = getClass().getResourceAsStream("sv_config.txt");
+
+            fileReader = new BufferedReader(new InputStreamReader(file));
 
             // read from file until EOF
             String currentLine;

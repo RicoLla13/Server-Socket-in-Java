@@ -22,15 +22,19 @@ public class SockInHandler extends Thread {
 
         while (!line.equals(exitLine)) {
             try {
+                if (this.isInterrupted()) {
+                    return;
+                }
+
                 reader = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
 
                 line = reader.readLine();
                 System.out.println("Server: " + line);
             } catch (IOException e) {
-                System.out.println("SockInHandler try catch");
             }
         }
 
+        System.out.println("Closing...");
         System.exit(0);
     }
 }

@@ -33,7 +33,6 @@ public class SockOutHandler {
 
         sysIn.close();
         writer.close();
-
         System.exit(0);
     }
 }
